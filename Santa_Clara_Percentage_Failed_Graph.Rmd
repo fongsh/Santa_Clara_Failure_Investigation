@@ -1,0 +1,30 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+```{r}
+percentage_failed <- read.csv("Santa_Clara_Percentage_Failed.csv")
+View(percentage_failed)
+
+library(reshape2)
+library(tidyverse)
+library(tidyr)
+```
+
+
+```{r}
+percentage_failed_gather <- gather(percentage_failed, key=variable, value=value, X..Santa.Clara.faield,X.OCDPH.failed,X.CADPH.failed)
+View(percentage_failed_gather)
+percentage_failed_gather[is.na(percentage_failed_gather)] = 110
+percentage_failed_gather %>%  
+  ggplot(aes(x= Sequence, y = value, color = variable)) +
+  geom_jitter()+
+  ylab("percentage failed samples in a run") +
+  xlab("sequence run")+
+  theme(axis.text.x = element_text(angle = 90))
+```
