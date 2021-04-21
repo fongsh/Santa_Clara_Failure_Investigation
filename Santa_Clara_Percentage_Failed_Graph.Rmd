@@ -18,13 +18,13 @@ library(tidyr)
 
 
 ```{r}
-percentage_failed_gather <- gather(percentage_failed, key=variable, value=value, X..Santa.Clara.faield,X.OCDPH.failed,X.CADPH.failed)
+percentage_failed_gather <- gather(percentage_failed, key=variable, value=value, X.Santa_Clara_faield,X.OCDPH_failed,X.CADPH_failed, X.Alameda_failed)
 View(percentage_failed_gather)
 percentage_failed_gather[is.na(percentage_failed_gather)] = 110
 percentage_failed_gather %>%  
   ggplot(aes(x= Sequence, y = value, color = variable)) +
   geom_jitter()+
-  ylab("percentage failed samples in a run") +
+  ylab("Percentage failed samples in a run") +
   xlab("sequence run")+
   theme(axis.text.x = element_text(angle = 90))
 ```
