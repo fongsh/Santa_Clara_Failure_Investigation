@@ -56,4 +56,15 @@ Santa_Clara_Failure_DF %>%
   #ylim(0,100)+
   theme(axis.text.x = element_text(angle = 90))+
  facet_wrap(~RR_ID)
+
+```
+
+
+``` {r}
+#reorder dataframe based on ascending ct values
+Santa_Clara_reordered_ct <- Santa_Clara_Failure_DF[order(Santa_Clara_Failure_DF$ct),]
+View(Santa_Clara_reordered_ct)
+
+#export dataframe as a csv file
+write.csv(Santa_Clara_reordered_ct,'Santa_Clara_reordered_ct.csv', row.names = FALSE)
 ```
