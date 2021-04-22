@@ -19,12 +19,41 @@ library(tidyr)
 
 ```{r}
 percentage_failed_gather <- gather(percentage_failed, key=variable, value=value, X.Santa_Clara_faield,X.OCDPH_failed,X.CADPH_failed, X.Alameda_failed)
-View(percentage_failed_gather)
+#View(percentage_failed_gather)
 percentage_failed_gather[is.na(percentage_failed_gather)] = 110
 percentage_failed_gather %>%  
   ggplot(aes(x= Sequence, y = value, color = variable)) +
   geom_jitter()+
   ylab("Percentage failed samples in a run") +
   xlab("sequence run")+
-  theme(axis.text.x = element_text(angle = 90))
+  ylim(0,100)+
+  theme(axis.text.x = element_text(angle = 90))+
+  facet_wrap(~variable)
+```
+
+```{r}
+#Uploading second metadata Santa_Clara_Failure_Data_Frame_SF_GL
+Santa_Clara_Failure_Data_Frame <- read.csv("Santa_Clara_Failure_Data_Frame_SF_GL.csv")
+#Uploading metadata to Santa_Clara_Failure_Data_Frame
+Santa_Clara_Failure_Metadata <- read.csv("~/Downloads/CZBIDs_metadata.csv") 
+#Joining on CZBID 
+Santa_Clara_Failure_DF <- full_join(Santa_Clara_Failure_Data_Frame, Santa_Clara_Failure_Metadata, by= "CZB_ID")
+
+View(Santa_Clara_Failure_DF)
+
+
+```
+
+```{r}
+Santa_Clara_Failure_DF$seq_number <- substr(Santa_Clara_Failure_DF$Seuence, 5, 7)
+Santa_Clara_Failure_DF %>%  
+ filter(seq_number>67) %>%
+  filter(RR_ID !=  "RR075") %>%
+  ggplot(aes(x= date, y = n_atcg, color = Seuence)) +
+  geom_point()+
+  #ylab("Percentage failed samples in a run") +
+ # xlab("sequence run")+
+  #ylim(0,100)+
+  theme(axis.text.x = element_text(angle = 90))+
+ facet_wrap(~RR_ID)
 ```
