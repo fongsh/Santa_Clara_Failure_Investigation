@@ -46,6 +46,8 @@ View(Santa_Clara_Failure_DF)
 
 ```{r}
 Santa_Clara_Failure_DF$seq_number <- substr(Santa_Clara_Failure_DF$Seuence, 5, 7)
+Santa_Clara_Failure_DF_separate <- Santa_Clara_Failure_DF %>%
+  separate(date, c("year", "month", "day"), sep="-")
 Santa_Clara_Failure_DF %>%  
  filter(seq_number>67) %>%
   filter(RR_ID !=  "RR075") %>%
@@ -58,7 +60,19 @@ Santa_Clara_Failure_DF %>%
  facet_wrap(~RR_ID)
 
 ```
-
+``` {r}
+Santa_Clara_Failure_DF_separate %>%  
+ filter(seq_number>67) %>%
+  filter(year == "2021") %>%
+  filter(RR_ID !=  "RR075") %>%
+  ggplot(aes(x= month, y = n_atcg, color = Seuence)) +
+  geom_point()+
+  #ylab("Percentage failed samples in a run") +
+ # xlab("sequence run")+
+  #ylim(0,100)+
+  theme(axis.text.x = element_text(angle = 90))+
+ facet_wrap(RR_ID~year)
+```
 
 ``` {r}
 #reorder dataframe based on ascending ct values
@@ -67,4 +81,61 @@ View(Santa_Clara_reordered_ct)
 
 #export dataframe as a csv file
 write.csv(Santa_Clara_reordered_ct,'Santa_Clara_reordered_ct.csv', row.names = FALSE)
+
+#import dataframe after adding Class column in Excel
+Santa_Clara_ct_class <-read.csv("Santa_Clara_reordered_ct.csv")
+View(Santa_Clara_ct_class)
+
+Santa_Clara_ct_class %>%  
+ filter(Class=="A") %>%
+  filter(RR_ID != "RR066") %>%
+  filter(CZB_ID != "RR077e_00335") %>%
+  ggplot(aes(x= ct, y = n_atcg, color = RR_ID)) +
+  geom_point()+
+  geom_hline(yintercept = 27500)
+  #ylab("Percentage failed samples in a run") +
+ # xlab("sequence run")+
+  #ylim(0,100)+
+  #theme(axis.text.x = element_text(angle = 90))+
+ #facet_wrap(~Class)
+
+Santa_Clara_ct_class %>%  
+ filter(Class=="B") %>%
+  filter(RR_ID != "RR066") %>%
+  filter(CZB_ID != "RR077e_00335") %>%
+  ggplot(aes(x= ct, y = n_atcg, color = RR_ID)) +
+  geom_point()+
+  geom_hline(yintercept = 27500)
+  #ylab("Percentage failed samples in a run") +
+ # xlab("sequence run")+
+  #ylim(0,100)+
+  #theme(axis.text.x = element_text(angle = 90))+
+ #facet_wrap(~Class)
+
+Santa_Clara_ct_class %>%  
+ filter(Class=="C") %>%
+  filter(RR_ID != "RR066") %>%
+  filter(CZB_ID != "RR077e_00335") %>%
+  ggplot(aes(x= ct, y = n_atcg, color = RR_ID)) +
+  geom_point()+
+  geom_hline(yintercept = 27500)
+  #ylab("Percentage failed samples in a run") +
+ # xlab("sequence run")+
+  #ylim(0,100)+
+  #theme(axis.text.x = element_text(angle = 90))+
+ #facet_wrap(~Class)
+
+Santa_Clara_ct_class %>%  
+ filter(Class=="D") %>%
+  filter(RR_ID != "RR066") %>%
+  filter(CZB_ID != "RR077e_00335") %>%
+  ggplot(aes(x= ct, y = n_atcg, color = RR_ID)) +
+  geom_point()+
+  geom_hline(yintercept = 27500)
+  #ylab("Percentage failed samples in a run") +
+ # xlab("sequence run")+
+  #ylim(0,100)+
+  #theme(axis.text.x = element_text(angle = 90))+
+ #facet_wrap(~Class)
+```
 ```
